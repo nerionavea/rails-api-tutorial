@@ -36,7 +36,10 @@ group :test do
   gem "rspec-rails", "~> 2.14"
   gem "factory_girl_rails"
   gem 'faker'
+  gem 'test-unit'
 end
+
+gem 'devise'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
