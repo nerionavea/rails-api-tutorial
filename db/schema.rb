@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160406150514) do
+ActiveRecord::Schema.define(version: 20160406221154) do
+
+  create_table "type_of_services", force: true do |t|
+    t.string   "description"
+    t.integer  "standart_kms"
+    t.integer  "standart_days"
+    t.text     "sms_model"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "type_of_services", ["user_id"], name: "index_type_of_services_on_user_id"
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
