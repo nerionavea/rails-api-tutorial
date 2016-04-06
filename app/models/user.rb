@@ -4,10 +4,12 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-         
+
   validates :auth_token, uniqueness: true
 
   before_validation :generate_authentication_token!
+
+  has_many :type_of_services, dependent: :destroy
 
   def generate_authentication_token!
     begin

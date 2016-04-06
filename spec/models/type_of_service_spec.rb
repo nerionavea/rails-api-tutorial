@@ -14,4 +14,6 @@ describe TypeOfService do
   it {should validate_presence_of :standart_kms}
   it {should validate_presence_of :sms_model}
   it {should validate_presence_of :user_id}
+
+  it {should belong_to :user}
 end

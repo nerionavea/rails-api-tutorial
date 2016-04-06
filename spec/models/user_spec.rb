@@ -11,7 +11,8 @@ describe User do
   it {should validate_confirmation_of(:password)}
   it {should allow_value('example@domain.com').for(:email)}
   it {should respond_to(:auth_token)}
-  
+  it {should have_many(:type_of_services)}
+
 
   describe "generate_authentication_token!" do
     it "generates a unique token" do
@@ -25,5 +26,19 @@ describe User do
       @user.generate_authentication_token!
       expect(@user.auth_token).not_to eql existing_user.auth_token
     end
+  end
+  describe "#products association" do
+      before do
+        @user.save
+        3.times {FactoryGirl.create :type_of_service, user: @user}
+      end
+
+      it "destroy the associated type of service on self desctruct" do
+        type_of_services = @user.type_of_services
+        @user.destroy
+        type_of_services.each do |type_of_service|
+          expect(TypeOfService.find(type_of_service)).to raise_error ActiveRecord::RecordNotFound
+        end
+      end
   end
 end
