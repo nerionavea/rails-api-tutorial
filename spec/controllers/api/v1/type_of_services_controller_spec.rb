@@ -8,7 +8,7 @@ describe Api::V1::TypeOfServicesController do
     end
 
     it "returns the information about a reporter on a hash" do
-      type_of_service_response = json_response
+      type_of_service_response = json_response[:type_of_service]
       expect(type_of_service_response[:description]).to eql @type_of_service.description
     end
 
@@ -76,7 +76,7 @@ describe Api::V1::TypeOfServicesController do
       end
 
       it "renders the json representation foor the updated user" do
-        type_of_service_response = json_response
+        type_of_service_response = json_response[:type_of_service]
         expect(type_of_service_response[:description]).to eql "Change gearbox"
       end
 
