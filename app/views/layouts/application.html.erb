@@ -1,14 +1,79 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>MarketPlaceApi</title>
+  <title>Raapp</title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+  <script type="text/javascript">
+		angular.module("clientApp",['ngRoute', 'ngResource'])
+
+			.factory('TypeOfService', function($resource){
+				return $resource('/type_of_services/:id')
+			})
+			.controller("typeOfServiceCtrl", function($scope, $resource, $http,TypeOfService){
+
+				$scope.actualIndexOfSelectedItem = null;
+
+				$scope.typeOfServices = TypeOfService.query();
+
+        console.log($scope.typeOfServices)
+
+        $scope.saveTypeOfService = function(){
+
+        }
+
+				$scope.selectItem = function(index){
+					showDetails(index);
+					$scope.actualIndexOfSelectedItem = index
+				}
+				var showDetails = function(index){
+					$scope.typeOfService = $scope.typeOfServices[index]
+				}
+				$scope.activeClass = function(index){
+					return index == $scope.actualIndexOfSelectedItem ? "active" : ""
+				}
+				$scope.newTypeOfService = function(){
+					$scope.typeOfService ={
+						description: "",
+						standart_days: "",
+						standart_kms: "",
+						sms_model: ""
+					};
+					$scope.typeOfServices.push($scope.typeOfService);
+					$scope.actualIndexOfSelectedItem = $scope.typeOfServices.length-1;
+				}
+			})
+		  .config(function($routeProvider, $locationProvider) {
+			  //$locationProvider.html5Mode(true);
+			  $routeProvider
+			    .when("/typeofservices",
+			      { templateUrl: "/angular/views/type_of_services/index.html" })
+			    .otherwise({ redirectTo: "/" });
+			})
+		  .directive('number', function() {
+			  var NUMBER_REGEXP = /^(\d+)$/;
+			  return {
+			    require: 'ngModel',
+			    link: function(scope, elm, attrs, ctrl) {
+			      ctrl.$validators.number = function(modelValue, viewValue) {
+			        return NUMBER_REGEXP.test(viewValue);
+			      };
+			    }
+			  };
+			});
+
+
+
+	</script>
+
 </head>
-<body>
+<body ng-app="clientApp">
 
+<div class="container">
 <%= yield %>
-
+</div>
 </body>
 </html>
